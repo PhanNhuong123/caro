@@ -124,7 +124,7 @@ export class SquareComponent implements OnInit {
       }
     }
 
-    if (this.listGroupChecked.length === 5) {
+    if (this.listGroupChecked.length >= 5) {
       return (this.caseWin = 1);
     }
     this.listGroupChecked.length = 0;
@@ -159,7 +159,7 @@ export class SquareComponent implements OnInit {
       }
     }
 
-    if (this.listGroupChecked.length === 5) {
+    if (this.listGroupChecked.length >= 5) {
       return (this.caseWin = 2);
     }
     this.listGroupChecked.length = 0;
@@ -191,7 +191,7 @@ export class SquareComponent implements OnInit {
       }
     }
 
-    if (this.listGroupChecked.length === 5) {
+    if (this.listGroupChecked.length >= 5) {
       return (this.caseWin = 3);
     }
     this.listGroupChecked.length = 0;
@@ -223,7 +223,7 @@ export class SquareComponent implements OnInit {
       }
     }
 
-    if (this.listGroupChecked.length === 5) {
+    if (this.listGroupChecked.length >= 5) {
       return (this.caseWin = 4);
     }
 
