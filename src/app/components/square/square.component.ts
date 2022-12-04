@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 interface Square {
-  value: 'x' | 'o' | null;
+  value: string | null;
+  y: number;
+  x: number;
+  className: string;
 }
 
 @Component({
@@ -10,11 +13,13 @@ interface Square {
   styleUrls: ['./square.component.scss'],
 })
 export class SquareComponent implements OnInit {
-  turn: 'x' | 'o' = 'x';
+  turn: string | null = 'x';
 
   square = 20;
 
   playGround: Square[][] = [];
+
+  caseWin: number = 0;
 
   constructor() {}
 
@@ -30,6 +35,9 @@ export class SquareComponent implements OnInit {
       for (let j = 0; j < this.square; j++) {
         const square: Square = {
           value: null,
+          y: i,
+          x: j,
+          className: ""
         };
         this.playGround[i].push(square);
       }
@@ -38,52 +46,188 @@ export class SquareComponent implements OnInit {
 
   updateSquare(item: Square) {
     item.value = this.turn;
+    console.log(item.x, item.y);
+    this.checkWinner(item);
+
     if (this.turn === 'x') return (this.turn = 'o');
     return (this.turn = 'x');
   }
 
-  checkWinner() {
-    for (let i = 0; i < this.square; i++) {
-      for (let j = 0; j < this.square; j++) {
-        this.checkItems(i, j);
-      }
+  checkWinner(item: Square) {
+   this.checkCase1(item)
+   if (this.caseWin === 0) {
+    this.checkCase2(item)
+   }
+   if (this.caseWin === 0) {
+    this.checkCase3(item)
+   }
+   if (this.caseWin === 0) {
+    this.checkCase4(item)
+   }
+      
+
+    switch (this.caseWin) {
+      case 1:
+        this.setWinValue(this.caseWin);
+        break;
+      case 2:
+        this.setWinValue(this.caseWin);
+        break;
+      case 3:
+        this.setWinValue(this.caseWin);
+        break;
+      case 4:
+        this.setWinValue(this.caseWin);
+        break;
+      default:
+        this.listGroupChecked.length = 0;
+        break;
     }
   }
 
   listGroupChecked: Square[] = [];
 
-  checkItems(col: number, row: number) {
-    const currentItem = this.playGround[col][row];
-    const currentValue = currentItem.value;
-    if (!currentValue) return;
+  setWinValue(_case: number | undefined) {
+    this.listGroupChecked.forEach((item) => {
+      console.log(`${item.value}-win-${_case}`);
 
-    this.listGroupChecked.push(currentItem);
+      item.className = `${item.value}-win-${_case}`;
+    });
+    this.listGroupChecked.length = 0;
   }
 
-  checkCase1(x: number, y: number, item: Square) {
-    let end1 = false;
-    let end2 = false;
-    let col = x;
-    let row = y;
-    while (end1) {
-      col += 1;
-      row += 1;
-      if (this.playGround[col][row].value === item.value) {
-        this.listGroupChecked.push(this.playGround[col][row]);
+  checkCase1(item: Square) {
+    this.listGroupChecked.push(item);
+    let end1 = true;
+    let end2 = true;
+    let x = item.x;
+    let y = item.y;
+    while (end1 && this.playGround[y - 1] && this.playGround[y - 1][x + 1]) {
+      x += 1;
+      y -= 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
       } else {
-        end1 = true;
-      }
-    }
-    while (end2) {
-      col -= 1;
-      row -= 1;
-      if (this.playGround[col][row].value === item.value) {
-        this.listGroupChecked.push(this.playGround[col][row]);
-      } else {
-        end2 = true;
+        x = item.x;
+        y = item.y;
+        end1 = false;
       }
     }
 
-    
+    while (end2 && this.playGround[y + 1] && this.playGround[y + 1][x - 1]) {
+      x -= 1;
+      y += 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        end2 = false;
+      }
+    }
+
+    if (this.listGroupChecked.length === 5) {
+      return (this.caseWin = 1);
+    }
+    this.listGroupChecked.length = 0;
+    return;
+  }
+
+  checkCase2(item: Square) {
+    this.listGroupChecked.push(item);
+    let end1 = true;
+    let end2 = true;
+    let x = item.x;
+    let y = item.y;
+    while (end1 && this.playGround[y - 1] && this.playGround[y - 1][x - 1]) {
+      x -= 1;
+      y -= 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        x = item.x;
+        y = item.y;
+        end1 = false;
+      }
+    }
+
+    while (end2 && this.playGround[y + 1] && this.playGround[y + 1][x + 1]) {
+      x += 1;
+      y += 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        end2 = false;
+      }
+    }
+
+    if (this.listGroupChecked.length === 5) {
+      return (this.caseWin = 2);
+    }
+    this.listGroupChecked.length = 0;
+    return;
+  }
+  checkCase3(item: Square) {
+    this.listGroupChecked.push(item);
+    let end1 = true;
+    let end2 = true;
+    let x = item.x;
+    let y = item.y;
+    while (end1 && this.playGround[y + 1] && this.playGround[y + 1][x]) {
+      y += 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        x = item.x;
+        y = item.y;
+        end1 = false;
+      }
+    }
+
+    while (end2 && this.playGround[y - 1] && this.playGround[y - 1][x]) {
+      y -= 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        end2 = false;
+      }
+    }
+
+    if (this.listGroupChecked.length === 5) {
+      return (this.caseWin = 3);
+    }
+    this.listGroupChecked.length = 0;
+    return;
+  }
+  checkCase4(item: Square) {
+    this.listGroupChecked.push(item);
+    let end1 = true;
+    let end2 = true;
+    let x = item.x;
+    let y = item.y;
+    while (end1 && this.playGround[y] && this.playGround[y][x + 1]) {
+      x += 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        x = item.x;
+        y = item.y;
+        end1 = false;
+      }
+    }
+
+    while (end2 && this.playGround[y] && this.playGround[y][x - 1]) {
+      x -= 1;
+      if (this.playGround[y][x].value === item.value) {
+        this.listGroupChecked.push(this.playGround[y][x]);
+      } else {
+        end2 = false;
+      }
+    }
+
+    if (this.listGroupChecked.length === 5) {
+      return (this.caseWin = 4);
+    }
+
+    this.listGroupChecked.length = 0;
+    return;
   }
 }
