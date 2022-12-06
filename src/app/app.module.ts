@@ -5,18 +5,32 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SquareComponent } from './components/square/square.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PlayHeaderInfoComponent } from './components/play-header-info/play-header-info.component';
+import { SiderBarComponent } from './components/sider-bar/sider-bar.component';
+import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
+import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
+import { DialogComponent } from './share/dialog/dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SquareComponent
+    SquareComponent,
+    PlayHeaderInfoComponent,
+    SiderBarComponent,
+    SvgIconComponent,
+    SanitizeHtmlPipe,
+    DialogComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

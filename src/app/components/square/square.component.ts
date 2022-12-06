@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
-interface Square {
-  value: string | null;
-  y: number;
-  x: number;
-  className: string;
-}
+import { GlobalService } from 'src/app/services/global.service';
+import { Square } from 'src/app/share/interface/square.interface';
 
 @Component({
   selector: 'app-square',
@@ -13,19 +8,23 @@ interface Square {
   styleUrls: ['./square.component.scss'],
 })
 export class SquareComponent implements OnInit {
-  turn: string | null = 'x';
+  public turn: string = 'x';
+  public square: number;
+  public playGround: Square[][] = [];
+  public caseWin: number = 0;
+  public backupLength = 0;
+  public backupIndex = -1;
+  public winned = false;
 
-  square = 20;
-
-  playGround: Square[][] = [];
-
-  caseWin: number = 0;
-
-  constructor() {}
+  constructor(private _gl: GlobalService) {
+    this.square = this._gl.squareQuantity;
+  }
 
   ngOnInit(): void {
     this.createSquare();
-    console.log(this.playGround);
+    this._gl.winned$.subscribe(x => {
+      this.winned = x
+    })
   }
 
   createSquare() {
@@ -37,7 +36,7 @@ export class SquareComponent implements OnInit {
           value: null,
           y: i,
           x: j,
-          className: ""
+          className: '',
         };
         this.playGround[i].push(square);
       }
@@ -46,25 +45,28 @@ export class SquareComponent implements OnInit {
 
   updateSquare(item: Square) {
     item.value = this.turn;
-    console.log(item.x, item.y);
     this.checkWinner(item);
 
-    if (this.turn === 'x') return (this.turn = 'o');
-    return (this.turn = 'x');
+    if (this.turn === 'x') {
+      this.turn = 'o';
+    } else {
+      this.turn = 'x';
+    }
+
+    this.handleBackup();
   }
 
   checkWinner(item: Square) {
-   this.checkCase1(item)
-   if (this.caseWin === 0) {
-    this.checkCase2(item)
-   }
-   if (this.caseWin === 0) {
-    this.checkCase3(item)
-   }
-   if (this.caseWin === 0) {
-    this.checkCase4(item)
-   }
-      
+    this.checkCase1(item);
+    if (this.caseWin === 0) {
+      this.checkCase2(item);
+    }
+    if (this.caseWin === 0) {
+      this.checkCase3(item);
+    }
+    if (this.caseWin === 0) {
+      this.checkCase4(item);
+    }
 
     switch (this.caseWin) {
       case 1:
@@ -89,10 +91,9 @@ export class SquareComponent implements OnInit {
 
   setWinValue(_case: number | undefined) {
     this.listGroupChecked.forEach((item) => {
-      console.log(`${item.value}-win-${_case}`);
-
       item.className = `${item.value}-win-${_case}`;
     });
+    this._gl.winned$.next(true)
     this.listGroupChecked.length = 0;
   }
 
@@ -229,5 +230,44 @@ export class SquareComponent implements OnInit {
 
     this.listGroupChecked.length = 0;
     return;
+  }
+
+  handleReset(e: boolean) {
+    if (e) {
+      this.createSquare();
+    }
+    this._gl.listBackup.length = 0;
+    this._gl.indexBackup = 0;
+    this._gl.winned$.next(false)
+    this.backupIndex = -1;
+    this.backupLength = 0;
+  }
+
+  handleBackup() {
+    if (this._gl.indexBackup !== this._gl.listBackup.length - 1) {
+      this._gl.listBackup = this._gl.listBackup.slice(
+        0,
+        this._gl.indexBackup + 1
+      );
+    }
+    const currentBk = JSON.stringify(this.playGround);
+    this._gl.backup$.next(currentBk);
+    this.setInfoBackup();
+  }
+
+  getBackup(action: 'revert' | 'next') {
+    if (action === 'revert') {
+      this._gl.revert$.next(true);
+    } else {
+      this._gl.next$.next(true);
+    }
+
+    this.playGround = JSON.parse(this._gl.listBackup[this._gl.indexBackup]);
+    this.setInfoBackup();
+  }
+
+  setInfoBackup() {
+    this.backupIndex = this._gl.indexBackup;
+    this.backupLength = this._gl.listBackup.length;
   }
 }

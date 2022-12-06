@@ -1,6 +1,8 @@
-<div>
+<div class="">
+    <app-play-header-info [backupIndex]="backupIndex" [winned]="winned" [backupLength]="backupLength" [turn]="turn"
+        (next)="getBackup('next')" (revert)="getBackup('revert')" (reset)="handleReset($event)"></app-play-header-info>
     <div *ngFor="let item of playGround" class="flex">
-        <div class=" flex" *ngFor="let _item of item">
+        <div class="duration-75 transform active:rotate-45" *ngFor="let _item of item">
             <ng-container [ngSwitch]="_item.value">
 
                 <ng-container *ngSwitchCase="'o'">
@@ -26,7 +28,7 @@
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchDefault>
-                    <div class="cursor-pointer hover:bg-cyan-300/30 transition rounded-full transform"
+                    <div class="cursor-pointer hover:outline-dashed outline-1 hover:outline-blue-200 transition rounded-full transform"
                         (click)="updateSquare(_item)">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M17 0V35" stroke="#CCCCCC" />

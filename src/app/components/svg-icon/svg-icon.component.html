@@ -1,0 +1,6 @@
+<ng-container *ngIf="currentIcon">
+    <svg [class]="iconClass" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        aria-hidden="true" role="img" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" fill="none">
+        <g [innerHTML]="currentIcon.value! | sanitizeHtml "></g>
+    </svg>
+</ng-container>
