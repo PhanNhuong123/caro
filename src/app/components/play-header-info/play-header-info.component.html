@@ -2,7 +2,7 @@
     class="fixed flex-nowrap bg-gray-50/60 justify-around flex z-10 right-4 left-4 sm:right-1/4 sm:left-1/4 lg:right-1/3 lg:left-1/3  top-2 h-14 rounded-md shadow-md border border-gray-200">
     <div class="flex-1 flex justify-start items-center cursor-pointer">
         <div (click)="backupIndex <= 0 ? '' : handleRevert()"
-            class=" active:opacity-60 border border-gray-50 rounded-md  shadow-md m-2 p-1"
+            class="active:opacity-60 border border-gray-50 rounded-md  shadow-md m-2 p-1"
             [ngClass]="{'opacity-40 cursor-not-allowed': backupIndex <= 0 }">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -11,7 +11,7 @@
             </svg>
         </div>
         <div (click)="backupIndex >= backupLength - 1 ? '' : handleNext()"
-            class="border border-gray-50 rounded-md shadow-md m-2 p-1 cursor-pointer"
+            class="active:opacity-60 border border-gray-50 rounded-md shadow-md m-2 p-1 cursor-pointer"
             [ngClass]="{'opacity-40 cursor-not-allowed': backupIndex >= backupLength - 1 }">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
@@ -40,7 +40,7 @@
         </ng-container>
     </div>
     <div class="flex-1 flex justify-end items-center">
-        <div class="border duration-100 border-gray-50 shadow-md rounded-md m-2 p-1 cursor-pointer"
+        <div class="active:opacity-60 border duration-100 border-gray-50 shadow-md rounded-md m-2 p-1 cursor-pointer"
             (click)="openDialog('reset', dataResetDialog)">
             <div class="hover:animate-spin" [ngClass]="{'animate-spin': winned}">
 
@@ -52,7 +52,7 @@
             </div>
 
         </div>
-        <div (click)="clickSetting()" class="border border-gray-50 shadow-md rounded-md m-2 p-1 cursor-pointer">
+        <div (click)="clickSetting()" class="active:opacity-60 border border-gray-50 shadow-md rounded-md m-2 p-1 cursor-pointer">
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M15 16.875C16.0355 16.875 16.875 16.0355 16.875 15C16.875 13.9645 16.0355 13.125 15 13.125C13.9645 13.125 13.125 13.9645 13.125 15C13.125 16.0355 13.9645 16.875 15 16.875Z"
