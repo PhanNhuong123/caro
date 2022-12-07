@@ -26,9 +26,10 @@ export class SquareComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createSquare();
     this.handleBackup();
-    this.handleReset(true)
+    this.handleReset(true);
     this._gl.winned$.pipe(takeUntil(this.unsubscribe$)).subscribe((x) => {
       this.winned = x;
+      console.log(this.winned);
     });
   }
 
@@ -54,7 +55,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   }
 
   updateSquare(item: Square) {
-    if(this.winned) return
+    if (this.winned) return;
     item.value = this.turn;
     this.checkWinner(item);
 
@@ -288,6 +289,10 @@ export class SquareComponent implements OnInit, OnDestroy {
   private setInfoBackup() {
     this.backupIndex = this._gl.indexBackup;
     this.backupLength = this._gl.listBackup.length;
+    if (this.caseWin > 0) {
+      this._gl.winned$.next(false);
+      this.caseWin = 0;
+    }
   }
 
   public changeTurn(turn: string) {
