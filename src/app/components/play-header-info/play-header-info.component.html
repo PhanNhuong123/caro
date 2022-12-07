@@ -21,7 +21,7 @@
 
         </div>
     </div>
-    <div [ngSwitch]="turn"
+    <div (click)="handleChangeTurn()" [ngClass]="{'cursor-pointer' : backupIndex === 0}" [ngSwitch]="turn"
         class="flex justify-center items-center border h-12 w-12 border-gray-100 shadow-zinc-200 shadow-md m-1 px-2 rounded-full">
         <ng-container *ngSwitchCase="'o'">
             <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">

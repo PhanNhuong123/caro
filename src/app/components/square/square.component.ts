@@ -287,4 +287,8 @@ export class SquareComponent implements OnInit, OnDestroy {
     this.backupIndex = this._gl.indexBackup;
     this.backupLength = this._gl.listBackup.length;
   }
+
+  public changeTurn(turn: string) {
+    this.turn = turn;
+  }
 }

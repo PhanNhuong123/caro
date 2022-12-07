@@ -16,6 +16,7 @@ export class PlayHeaderInfoComponent implements OnInit {
   @Output() reset: EventEmitter<boolean> = new EventEmitter();
   @Output() next: EventEmitter<boolean> = new EventEmitter();
   @Output() revert: EventEmitter<boolean> = new EventEmitter();
+  @Output() changeTurn: EventEmitter<string> = new EventEmitter();
 
   public dataResetDialog: IDialogData = {
     type: 'alert',
@@ -58,5 +59,11 @@ export class PlayHeaderInfoComponent implements OnInit {
       if (value && value === 'Reset') this.handleReset();
       sub.unsubscribe();
     });
+  }
+
+  handleChangeTurn() {
+    if (this.backupIndex > 0) return;
+    this.turn === 'x' ? (this.turn = 'o') : (this.turn = 'x');
+    this.changeTurn.emit(this.turn);
   }
 }
