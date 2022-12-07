@@ -10,8 +10,8 @@ import { IDialogData } from 'src/app/share/interface/dialog.interface';
 })
 export class PlayHeaderInfoComponent implements OnInit {
   @Input() turn: string = '';
-  @Input() backupIndex: number = -1;
-  @Input() backupLength: number = 0;
+  @Input() backupIndex: number = 0;
+  @Input() backupLength: number = 1;
   @Input() winned = false;
   @Output() reset: EventEmitter<boolean> = new EventEmitter();
   @Output() next: EventEmitter<boolean> = new EventEmitter();
@@ -55,7 +55,7 @@ export class PlayHeaderInfoComponent implements OnInit {
       data: _data,
     });
     const sub = dialogRef.afterClosed().subscribe((value: string) => {
-      if (value && value === name) this.handleReset();
+      if (value && value === 'Reset') this.handleReset();
       sub.unsubscribe();
     });
   }

@@ -10,7 +10,11 @@ import { SiderBarComponent } from './components/sider-bar/sider-bar.component';
 import { SvgIconComponent } from './components/svg-icon/svg-icon.component';
 import { SanitizeHtmlPipe } from './pipes/sanitize-html.pipe';
 import { DialogComponent } from './share/dialog/dialog.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
@@ -30,7 +34,15 @@ import { MatButtonModule } from '@angular/material/button';
     MatDialogModule,
     MatButtonModule,
   ],
-  providers: [],
+  providers: [
+    SquareComponent,
+    PlayHeaderInfoComponent,
+    DialogComponent,
+    MatButtonModule,
+    MatDialogModule,
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

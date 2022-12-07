@@ -6,7 +6,7 @@ import { Square } from '../share/interface/square.interface';
   providedIn: 'root',
 })
 export class GlobalService {
-  public indexBackup = -1;
+  public indexBackup = 0;
   public listBackup: string[] = [];
 
   constructor() {

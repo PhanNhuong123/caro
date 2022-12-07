@@ -17,6 +17,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   public backupIndex = -1;
   public winned = false;
   private unsubscribe$ = new Subject<boolean>();
+  private listGroupChecked: Square[] = [];
 
   constructor(private _gl: GlobalService) {
     this.square = this._gl.squareQuantity;
@@ -24,6 +25,7 @@ export class SquareComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.createSquare();
+    this.handleBackup();
     this._gl.winned$.pipe(takeUntil(this.unsubscribe$)).subscribe((x) => {
       this.winned = x;
     });
@@ -63,7 +65,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     this.handleBackup();
   }
 
-  checkWinner(item: Square) {
+  private checkWinner(item: Square) {
     this.checkCase1(item);
     if (this.caseWin === 0) {
       this.checkCase2(item);
@@ -94,9 +96,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     }
   }
 
-  listGroupChecked: Square[] = [];
-
-  setWinValue(_case: number | undefined) {
+  private setWinValue(_case: number | undefined) {
     this.listGroupChecked.forEach((item) => {
       item.className = `${item.value}-win-${_case}`;
     });
@@ -104,7 +104,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     this.listGroupChecked.length = 0;
   }
 
-  checkCase1(item: Square) {
+  private checkCase1(item: Square) {
     this.listGroupChecked.push(item);
     let end1 = true;
     let end2 = true;
@@ -139,7 +139,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     return;
   }
 
-  checkCase2(item: Square) {
+  private checkCase2(item: Square) {
     this.listGroupChecked.push(item);
     let end1 = true;
     let end2 = true;
@@ -174,7 +174,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     return;
   }
 
-  checkCase3(item: Square) {
+  private checkCase3(item: Square) {
     this.listGroupChecked.push(item);
     let end1 = true;
     let end2 = true;
@@ -206,7 +206,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     this.listGroupChecked.length = 0;
     return;
   }
-  checkCase4(item: Square) {
+  private checkCase4(item: Square) {
     this.listGroupChecked.push(item);
     let end1 = true;
     let end2 = true;
@@ -242,14 +242,15 @@ export class SquareComponent implements OnInit, OnDestroy {
 
   handleReset(e: boolean) {
     if (e) {
-      this.createSquare();
+      this._gl.listBackup.length = 1;
+      this._gl.indexBackup = 0;
+      this._gl.winned$.next(false);
+      this.caseWin = 0;
+      this.turn = 'x';
+      this.backupIndex = 1;
+      this.backupLength = 0;
+      this.playGround = JSON.parse(this._gl.listBackup[0]);
     }
-    this._gl.listBackup.length = 0;
-    this._gl.indexBackup = 0;
-    this._gl.winned$.next(false);
-    this.caseWin = 0;
-    this.backupIndex = -1;
-    this.backupLength = 0;
   }
 
   handleBackup() {
@@ -274,7 +275,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     if (this.backupIndex >= 0) {
       this.turn === 'x' ? (this.turn = 'o') : (this.turn = 'x');
     }
-    if(this._gl.indexBackup >= 0) {
+    if (this._gl.indexBackup >= 0) {
       this.playGround = JSON.parse(this._gl.listBackup[this._gl.indexBackup]);
     } else {
       this.playGround = JSON.parse(this._gl.listBackup[0]);
@@ -282,7 +283,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     this.setInfoBackup();
   }
 
-  setInfoBackup() {
+  private setInfoBackup() {
     this.backupIndex = this._gl.indexBackup;
     this.backupLength = this._gl.listBackup.length;
   }
