@@ -1,10 +1,27 @@
-<h1 mat-dialog-title>{{ data.title }}</h1>
-<div mat-dialog-content>
+<ng-container *ngIf="data.type === 'alert'">
+
+  <h1 mat-dialog-title>{{ data.title }}</h1>
+  <div mat-dialog-content>
     {{
-        data.message
+    data.message
     }}
-</div>
-<div mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button [mat-dialog-close]="data.actionYes" mat-button cdkFocusInitial>Ok</button>
-</div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button [mat-dialog-close]="data.actionYes" mat-button cdkFocusInitial>{{ data.actionYes }}</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.type === 'form'">
+
+  <h1 mat-dialog-title>{{ data.title }}</h1>
+  <div mat-dialog-content>
+    <form>
+
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>No</button>
+    <button [mat-dialog-close]="data.actionYes" mat-button cdkFocusInitial>{{ data.actionYes }}</button>
+  </div>
+</ng-container>

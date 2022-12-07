@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { GlobalService } from 'src/app/services/global.service';
 import { Square } from 'src/app/share/interface/square.interface';
 
@@ -7,7 +8,7 @@ import { Square } from 'src/app/share/interface/square.interface';
   templateUrl: './square.component.html',
   styleUrls: ['./square.component.scss'],
 })
-export class SquareComponent implements OnInit {
+export class SquareComponent implements OnInit, OnDestroy {
   public turn: string = 'x';
   public square: number;
   public playGround: Square[][] = [];
@@ -15,6 +16,7 @@ export class SquareComponent implements OnInit {
   public backupLength = 0;
   public backupIndex = -1;
   public winned = false;
+  private unsubscribe$ = new Subject<boolean>();
 
   constructor(private _gl: GlobalService) {
     this.square = this._gl.squareQuantity;
@@ -22,9 +24,14 @@ export class SquareComponent implements OnInit {
 
   ngOnInit(): void {
     this.createSquare();
-    this._gl.winned$.subscribe(x => {
-      this.winned = x
-    })
+    this._gl.winned$.pipe(takeUntil(this.unsubscribe$)).subscribe((x) => {
+      this.winned = x;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next(true);
+    this.unsubscribe$.complete();
   }
 
   createSquare() {
@@ -93,7 +100,7 @@ export class SquareComponent implements OnInit {
     this.listGroupChecked.forEach((item) => {
       item.className = `${item.value}-win-${_case}`;
     });
-    this._gl.winned$.next(true)
+    this._gl.winned$.next(true);
     this.listGroupChecked.length = 0;
   }
 
@@ -166,6 +173,7 @@ export class SquareComponent implements OnInit {
     this.listGroupChecked.length = 0;
     return;
   }
+
   checkCase3(item: Square) {
     this.listGroupChecked.push(item);
     let end1 = true;
@@ -238,7 +246,8 @@ export class SquareComponent implements OnInit {
     }
     this._gl.listBackup.length = 0;
     this._gl.indexBackup = 0;
-    this._gl.winned$.next(false)
+    this._gl.winned$.next(false);
+    this.caseWin = 0;
     this.backupIndex = -1;
     this.backupLength = 0;
   }
@@ -262,7 +271,14 @@ export class SquareComponent implements OnInit {
       this._gl.next$.next(true);
     }
 
-    this.playGround = JSON.parse(this._gl.listBackup[this._gl.indexBackup]);
+    if (this.backupIndex >= 0) {
+      this.turn === 'x' ? (this.turn = 'o') : (this.turn = 'x');
+    }
+    if(this._gl.indexBackup >= 0) {
+      this.playGround = JSON.parse(this._gl.listBackup[this._gl.indexBackup]);
+    } else {
+      this.playGround = JSON.parse(this._gl.listBackup[0]);
+    }
     this.setInfoBackup();
   }
 

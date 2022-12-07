@@ -1,10 +1,9 @@
-<div class="">
+<div class="w-screen h-screen max-h-screen overflow-auto">
     <app-play-header-info [backupIndex]="backupIndex" [winned]="winned" [backupLength]="backupLength" [turn]="turn"
         (next)="getBackup('next')" (revert)="getBackup('revert')" (reset)="handleReset($event)"></app-play-header-info>
     <div *ngFor="let item of playGround" class="flex">
         <div class="duration-75 transform active:rotate-45" *ngFor="let _item of item">
             <ng-container [ngSwitch]="_item.value">
-
                 <ng-container *ngSwitchCase="'o'">
                     <div [class]="_item.className">
                         <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">

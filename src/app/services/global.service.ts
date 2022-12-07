@@ -16,7 +16,7 @@ export class GlobalService {
     });
 
     this.revert$.subscribe(() => {
-      if (this.indexBackup >= 0) {
+      if (this.indexBackup > 0) {
         this.indexBackup--;
       }
     });
@@ -28,7 +28,7 @@ export class GlobalService {
     });
   }
 
-  public squareQuantity = 50;
+  public squareQuantity = 40;
   public squareQuantity$ = new Subject<number>();
   public backup$ = new Subject<string>();
   public revert$ = new Subject<boolean>();

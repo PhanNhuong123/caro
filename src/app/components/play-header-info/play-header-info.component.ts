@@ -17,10 +17,11 @@ export class PlayHeaderInfoComponent implements OnInit {
   @Output() next: EventEmitter<boolean> = new EventEmitter();
   @Output() revert: EventEmitter<boolean> = new EventEmitter();
 
-  private dataResetDialog: IDialogData = {
+  public dataResetDialog: IDialogData = {
+    type: 'alert',
     title: 'Do you want to reset ?',
     message: 'Reset and replay',
-    actionYes: 'reset',
+    actionYes: 'Reset',
   };
 
   constructor(public dialog: MatDialog) {}
@@ -39,10 +40,19 @@ export class PlayHeaderInfoComponent implements OnInit {
     this.revert.emit(true);
   }
 
-  openDialog(name: string, _width = '300px'): void {
+  clickSetting() {
+    this.openDialog('Ok', {
+      actionYes: 'Ok',
+      message: 'coming soon ...',
+      title: 'Sorry !',
+      type: 'alert',
+    });
+  }
+
+  openDialog(name: string, _data: IDialogData, _width = '300px'): void {
     const dialogRef = this.dialog.open(DialogComponent, {
       width: _width,
-      data: this.dataResetDialog,
+      data: _data,
     });
     const sub = dialogRef.afterClosed().subscribe((value: string) => {
       if (value && value === name) this.handleReset();
