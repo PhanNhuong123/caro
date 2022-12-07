@@ -53,6 +53,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   }
 
   updateSquare(item: Square) {
+    if(this.winned) return
     item.value = this.turn;
     this.checkWinner(item);
 
