@@ -14,7 +14,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   public playGround: Square[][] = [];
   public caseWin: number = 0;
   public backupLength = 0;
-  public backupIndex = -1;
+  public backupIndex = 0;
   public winned = false;
   private unsubscribe$ = new Subject<boolean>();
   private listGroupChecked: Square[] = [];
@@ -26,6 +26,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.createSquare();
     this.handleBackup();
+    this.handleReset(true)
     this._gl.winned$.pipe(takeUntil(this.unsubscribe$)).subscribe((x) => {
       this.winned = x;
     });
@@ -248,7 +249,7 @@ export class SquareComponent implements OnInit, OnDestroy {
       this._gl.winned$.next(false);
       this.caseWin = 0;
       this.turn = 'x';
-      this.backupIndex = 1;
+      this.backupIndex = 0;
       this.backupLength = 0;
       this.playGround = JSON.parse(this._gl.listBackup[0]);
     }
