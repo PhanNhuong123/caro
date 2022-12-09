@@ -28,7 +28,7 @@ export class GlobalService {
     });
   }
 
-  public squareQuantity = 28;
+  public squareQuantity = 20;
   public squareQuantity$ = new Subject<number>();
   public backup$ = new Subject<string>();
   public revert$ = new Subject<boolean>();
