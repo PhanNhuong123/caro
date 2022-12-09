@@ -102,6 +102,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "caro:build:production",
+            "firebaseProject": "simple-caro",
+            "firebaseHostingSite": "simple-caro"
+          }
         }
       }
     }

@@ -16,6 +16,11 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { SettingsComponent } from './components/settings/settings.component';
+import { AuthenticationComponent } from './components/authentication/authentication.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +31,8 @@ import { MatButtonModule } from '@angular/material/button';
     SvgIconComponent,
     SanitizeHtmlPipe,
     DialogComponent,
+    SettingsComponent,
+    AuthenticationComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +40,8 @@ import { MatButtonModule } from '@angular/material/button';
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideDatabase(() => getDatabase()),
   ],
   providers: [
     SquareComponent,

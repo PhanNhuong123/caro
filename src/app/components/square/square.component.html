@@ -2,41 +2,47 @@
     <app-play-header-info [backupIndex]="backupIndex" (changeTurn)="changeTurn($event)" [winned]="winned"
         [backupLength]="backupLength" [turn]="turn" (next)="getBackup('next')" (revert)="getBackup('revert')"
         (reset)="handleReset($event)"></app-play-header-info>
-    <div *ngFor="let item of playGround" class="flex justify-center">
-        <div class="" *ngFor="let _item of item">
-            <ng-container [ngSwitch]="_item.value">
-                <ng-container *ngSwitchCase="'o'">
-                    <div [class]="_item.className">
-                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 0V35" stroke="#CCCCCC" />
-                            <path d="M0 17L35 17" stroke="#CCCCCC" />
-                            <path
-                                d="M13.7346 22.8114C0.908682 17.2586 9.34728 12.4604 14.9311 10.0909C21.9507 7.39718 23.3068 10.0909 25.301 13.8323C28.0929 19.0701 29.2894 29.5458 13.7346 22.8114Z"
-                                stroke="#181CCE" />
-                        </svg>
-                    </div>
+    <div class="w-fit mx-auto border border-gray-300 rounded-md shadow-md">
+
+        <div *ngFor="let item of playGround" class="flex justify-center">
+            <div class="" *ngFor="let _item of item">
+                <ng-container [ngSwitch]="_item.value">
+                    <ng-container *ngSwitchCase="'o'">
+                        <div [class]="_item.className">
+                            <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 0V35" stroke="#CCCCCC" />
+                                <path d="M0 17L35 17" stroke="#CCCCCC" />
+                                <path
+                                    d="M13.7346 22.8114C0.908682 17.2586 9.34728 12.4604 14.9311 10.0909C21.9507 7.39718 23.3068 10.0909 25.301 13.8323C28.0929 19.0701 29.2894 29.5458 13.7346 22.8114Z"
+                                    stroke="#181CCE" />
+                            </svg>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="'x'">
+                        <div [class]="_item.className">
+                            <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 0V35" stroke="#CCCCCC" />
+                                <path d="M0 17L35 17" stroke="#CCCCCC" />
+                                <path
+                                    d="M29.216 9C23.5972 19.5644 1.35625 34.0002 6.8717 17.5658C11.1838 4.71715 22.194 13.258 30 23.3858"
+                                    stroke="#FF0000" />
+                            </svg>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngSwitchDefault>
+                        <div class="cursor-pointer duration-75 active:rotate-90 hover:outline-dashed outline-1 hover:outline-blue-200 transition rounded-full transform"
+                            (click)="updateSquare(_item)">
+                            <svg width="35" height="35" viewBox="0 0 35 35" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 0V35" stroke="#CCCCCC" />
+                                <path d="M0 17L35 17" stroke="#CCCCCC" />
+                            </svg>
+                        </div>
+                    </ng-container>
                 </ng-container>
-                <ng-container *ngSwitchCase="'x'">
-                    <div [class]="_item.className">
-                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 0V35" stroke="#CCCCCC" />
-                            <path d="M0 17L35 17" stroke="#CCCCCC" />
-                            <path
-                                d="M29.216 9C23.5972 19.5644 1.35625 34.0002 6.8717 17.5658C11.1838 4.71715 22.194 13.258 30 23.3858"
-                                stroke="#FF0000" />
-                        </svg>
-                    </div>
-                </ng-container>
-                <ng-container *ngSwitchDefault>
-                    <div class="cursor-pointer duration-75 active:rotate-90 hover:outline-dashed outline-1 hover:outline-blue-200 transition rounded-full transform"
-                        (click)="updateSquare(_item)">
-                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M17 0V35" stroke="#CCCCCC" />
-                            <path d="M0 17L35 17" stroke="#CCCCCC" />
-                        </svg>
-                    </div>
-                </ng-container>
-            </ng-container>
+            </div>
         </div>
     </div>
 </div>

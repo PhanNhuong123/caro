@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "simple-caro": {
+      "hosting": {
+        "caro": [
+          "simple-caro"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "simple-caro"
+  }
+}

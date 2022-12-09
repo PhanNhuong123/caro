@@ -31,6 +31,8 @@ export class SquareComponent implements OnInit, OnDestroy {
       this.winned = x;
       console.log(this.winned);
     });
+
+    this._gl.readValue()
   }
 
   ngOnDestroy(): void {
@@ -64,6 +66,8 @@ export class SquareComponent implements OnInit, OnDestroy {
     } else {
       this.turn = 'x';
     }
+
+    this._gl.writeUserData('nhuong', this.turn);
 
     this.handleBackup();
   }
