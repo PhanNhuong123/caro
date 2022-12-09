@@ -283,13 +283,13 @@ export class SquareComponent implements OnInit, OnDestroy {
     } else {
       this.playGround = JSON.parse(this._gl.listBackup[0]);
     }
-    this.setInfoBackup();
+    this.setInfoBackup(action);
   }
 
-  private setInfoBackup() {
+  private setInfoBackup(action?: string) {
     this.backupIndex = this._gl.indexBackup;
     this.backupLength = this._gl.listBackup.length;
-    if (this.caseWin > 0) {
+    if (this.caseWin > 0 && action) {
       this._gl.winned$.next(false);
       this.caseWin = 0;
     }
