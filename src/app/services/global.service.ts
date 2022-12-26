@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Database, onValue, ref } from '@angular/fire/database';
-import { set } from '@firebase/database';
+import { Database } from '@angular/fire/database';
 import { Subject } from 'rxjs';
-import { Square } from '../share/interface/square.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -37,18 +35,18 @@ export class GlobalService {
   public next$ = new Subject<boolean>();
   public winned$ = new Subject<boolean>();
 
-  writeUserData(name: string, turn: string) {
-    set(ref(this.dataBase, 'room/' + this.roomId), {
-      username: name,
-      turn: turn,
-    });
-  }
+  // writeUserData(name: string, turn: string) {
+  //   set(ref(this.dataBase, 'room/' + this.roomId), {
+  //     username: name,
+  //     turn: turn,
+  //   });
+  // }
 
-  readValue() {
-    const starCountRef = ref(this.dataBase, 'room/' + this.roomId);
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
-      // console.log(snapshot, data)
-    });
-  }
+  // readValue() {
+  //   const starCountRef = ref(this.dataBase, 'room/' + this.roomId);
+  //   onValue(starCountRef, (snapshot) => {
+  //     const data = snapshot.val();
+  //     // console.log(snapshot, data)
+  //   });
+  // }
 }
